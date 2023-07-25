@@ -1,6 +1,7 @@
 import styles from "../style";
 import { logo } from "../assets";
 import { footerLinks, socialMedia } from "../constants";
+import {motion} from "framer-motion";
 
 const Footer = () => (
   <section className={`${styles.flexCenter} ${styles.paddingY} flex-col`}>
@@ -24,14 +25,15 @@ const Footer = () => (
             </h4>
             <ul className="list-none mt-4">
               {footerlink.links.map((link, index) => (
-                <li
+                <motion.li
+                  whileHover={{scale:1.1, transition:{duration:0.2}}}
                   key={link.name}
                   className={`font-poppins font-normal text-[16px] leading-[24px] text-dimWhite hover:text-secondary cursor-pointer ${
                     index !== footerlink.links.length - 1 ? "mb-4" : "mb-0"
                   }`}
                 >
                   {link.name}
-                </li>
+                </motion.li>
               ))}
             </ul>
           </div>
@@ -46,7 +48,8 @@ const Footer = () => (
 
       <div className="flex flex-row md:mt-0 mt-6">
         {socialMedia.map((social, index) => (
-          <img
+          <motion.img
+            whileHover={{scale:1.3}}
             key={social.id}
             src={social.icon}
             alt={social.id}

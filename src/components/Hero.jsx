@@ -1,11 +1,52 @@
+import React , { useEffect } from "react";
 import styles from "../style";
 import { discount, robot } from "../assets";
 import GetStarted from "./GetStarted";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
-const Hero = () => (
-    <section id="home" className={` flex md:flex-row flex-col ${styles.paddingY} `} >
+const Hero = () => {
+
+  const discountDivControl = useAnimation();
+  const headingCtrl_1 = useAnimation();
+  const headingCtrl_2 = useAnimation();
+  const headingCtrl_3 = useAnimation();
+  const paragraphCtrl = useAnimation();
+  const buttonCtrl = useAnimation();
+
+  const animationSequence = async () => {
+    await headingCtrl_1.start({ opacity: 1, scale: 1 });
+    await headingCtrl_2.start({ opacity: 1, scale: [1.5, 1] });
+    await headingCtrl_3.start({ opacity: 1, scale: 1 });
+    await paragraphCtrl.start({ opacity: 1, scale: 1 });
+    await discountDivControl.start({ opacity: 1, scale: 1 });
+    return await buttonCtrl.start({ opacity: 1, scale: [1.5, 1, 1.3, 1] });
+  };
+
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      animationSequence();
+    }
+    if (!inView) {
+      console.log("Hero not in view");
+    }
+  }, [inView]);
+
+  return (
+    <section id="home" className={` flex md:flex-row flex-col ${styles.paddingY} `} ref={ref} >
       <div className={` flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`} >
-        <div className="flex flex-row items-center py-[6px] px-4 bg-discount-gradient rounded-[10px] mb-2" >
+        <motion.div initial={{ opacity: 0, scale: 0.5 }}
+          animate={discountDivControl}
+          transition={{
+            duration: 0.5,
+            delay: 0,
+          }} className="flex flex-row items-center py-[6px] px-4 bg-discount-gradient rounded-[10px] mb-2" >
+
           <img src={discount} alt="discount"  className="w-[32px] h-[32px]"/>
           <p className={` ${styles.paragraph} ml-2 `} >
           <span className=" text-white"> 20% </span>
@@ -13,25 +54,48 @@ const Hero = () => (
           <span className="text-white" > 1 month </span>
           Account
           </p>
-        </div>
+        </motion.div>
 
         <div className=" flex flex-row justify-between items-center w-full " >
-          <h1 className=" flex-1 font-poppins font-semibold ss:text-[72px] text-[52px] text-white ss:leading-[100px] leading-[75px]" >
+          <motion.h1 initial={{ opacity: 0, scale: 0.5 }}
+              animate={headingCtrl_1}
+              transition={{
+                duration: 0.8,
+              }} className=" flex-1 font-poppins font-semibold ss:text-[72px] text-[52px] text-white ss:leading-[100px] leading-[75px]" >
             The Next <br className="sm:block hidden"/>
-            <span className="text-gradient" > Generation </span> {" "}  
-          </h1>
-          <div className="ss:flex hidden md:mr-4 mr-0" >
+            <motion.span initial={{ opacity: 0, scale: 0 }}
+              animate={headingCtrl_2}
+              transition={{
+                duration: 0.8,
+              }} className="text-gradient" > Generation </motion.span> {" "}  
+          </motion.h1>
+
+          <motion.div initial={{ opacity: 0, scale: 0 }}
+            animate={buttonCtrl}
+            transition={{
+              duration: 0.8,
+              damping: 3,
+              type: "spring",
+            }} className="ss:flex hidden md:mr-4 mr-0" >
             <GetStarted />
-          </div>
+          </motion.div>
         </div>
 
-        <h1 className="font-poppins font-semibold ss:text-[68px] text-[52px] text-white ss:leading-[100px] leading-[75px] w-full">
+        <motion.h1 initial={{ opacity: 0, scale: 0.5 }}
+          animate={headingCtrl_3}
+          transition={{
+            duration: 0.8,
+          }} className="font-poppins font-semibold ss:text-[68px] text-[52px] text-white ss:leading-[100px] leading-[75px] w-full">
         Payment Method. 
-        </h1>
-        <p className={`${styles.paragraph} mt-5 max-w-[470px] `} >
+        </motion.h1>
+        <motion.p initial={{ opacity: 0, scale: 0.5 }}
+          animate={paragraphCtrl}
+          transition={{
+            duration: 0.6,
+          }} className={`${styles.paragraph} mt-5 max-w-[470px] `} >
           Our team of experts uses a methodology to identify the credit cards most likely to fit your needs. 
           We examine annual percentage rates, annual fees.
-        </p>
+        </motion.p>
       </div>
 
       <div className={`flex-1 flex ${styles.flexCenter} md:my-0 my-10 relative`}>
@@ -44,5 +108,5 @@ const Hero = () => (
       </div>
     </section>
   )
-
+}
 export default Hero

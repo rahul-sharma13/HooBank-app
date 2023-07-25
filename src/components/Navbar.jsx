@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { logo, close, menu } from '../assets'; //imported from index.js in assets
 import { navLinks} from '../constants';
+import {motion} from 'framer-motion';
 
 const Navbar = () => {
 
@@ -13,11 +14,11 @@ const Navbar = () => {
       <ul className="list-none sm:flex hidden justify-end items-center flex-1" >
         {navLinks.map((nav, index) => (                               //when we want to instantly return something parenthesis used instead of curly braces
         //map function needs a unique key for each.
-          <li key={nav.id} className={`font-poppins font-normal cursor-pointer text-[16px] text-white ${index === navLinks.length - 1 ? 'mr-0' : 'mr-10' }`} >  
+          <motion.li whileHover={{scale:1.3, transition:{duration:0.5}}} key={nav.id}  className={`hover:text-secondary font-poppins font-normal cursor-pointer text-[16px] text-white ${index === navLinks.length - 1 ? 'mr-0' : 'mr-10' }`} >  
             <a href={`#${nav.id}`}>       {/* used to concatenate # and home/feature in one string */}
               {nav.title}
             </a>
-          </li>
+          </motion.li>
         ))}
       </ul>
 
