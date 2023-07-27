@@ -5,6 +5,7 @@ import {motion, useAnimationControls} from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import AnimatedText from "./common/AnimatedText";
 
+//A simple state hook for when an element is within the viewport. {useInView}
 
 const Billing = () => {
 
@@ -29,7 +30,7 @@ const Billing = () => {
   };
 
   const { ref, inView } = useInView({
-    threshold: 0.5,
+    threshold: 0.5,                     //threshold to tell how much % of the element should be in viewport.
     triggerOnce: true,
   });
 
